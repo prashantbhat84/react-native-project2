@@ -11,6 +11,7 @@ import { Button } from 'react-native-elements';
 import Card from '../components/Card';
 import Colors from '../constants/Colors';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 
 const StartGamesScreen = props => {
   const [enteredValue, setEnteredValue] = useState('');
@@ -35,10 +36,19 @@ const StartGamesScreen = props => {
     setConfirmed(true);
     setEnteredValue('');
     setSelectedNumber(choosedNumber);
+    Keyboard.dismiss();
   };
   let confirmedOutput;
   if (confirmed) {
-    confirmedOutput = <Text>Choosen Number:{selectedNumber}</Text>;
+    confirmedOutput = (
+      <View style={styles.summaryContainer}>
+        <Card>
+          <Text>You Selected</Text>
+          <NumberContainer>{selectedNumber}</NumberContainer>
+          <Button title='Start Game' color={Colors.accent} />
+        </Card>
+      </View>
+    );
   }
   return (
     <TouchableWithoutFeedback
@@ -102,6 +112,10 @@ const styles = StyleSheet.create({
   input: {
     width: 75,
     textAlign: 'center'
+  },
+  summaryContainer: {
+    marginTop: 10,
+    alignItems: 'center'
   }
 });
 
