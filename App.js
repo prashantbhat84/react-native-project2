@@ -9,10 +9,12 @@ export default function App() {
   const startGameHandler = selectedNumber => {
     setUserNumber(selectedNumber);
   };
+
   let content = <StartGamesScreen onStartGame={startGameHandler} />;
   if (userNumber) {
     content = <GamesScreen userChoice={userNumber} />;
   }
+
   return (
     <View style={styles.screen}>
       <Header title='Guess A Number' />
