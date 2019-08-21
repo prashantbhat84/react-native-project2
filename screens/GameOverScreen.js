@@ -19,7 +19,7 @@ const GameOverScreen = props => {
         style={styles.images}
       />
 
-      <BodyText>No of rounds:{props.rounds}</BodyText>
+      <BodyText>No of rounds is {props.rounds}</BodyText>
       <BodyText>User Number:{props.userNumber}</BodyText>
       <Button title='New Game' onPress={props.startNewGame} />
     </View>
