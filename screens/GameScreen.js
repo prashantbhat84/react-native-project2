@@ -5,6 +5,7 @@ import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import DefaultStyle from '../constants/default-styles';
 import MainButton from '../components/MainButton';
+import BodyText from '../components/BodyText';
 
 const generateRandomNumberBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -16,6 +17,12 @@ const generateRandomNumberBetween = (min, max, exclude) => {
     return rndNumber;
   }
 };
+const renderListItems = (value, numofround) => (
+  <View key={value} style={styles.listItem}>
+    <BodyText>#{numofround}</BodyText>
+    <BodyText>{value}</BodyText>
+  </View>
+);
 
 const GameScreen = props => {
   const initialGuess = generateRandomNumberBetween(1, 100, props.userChoice);
@@ -68,13 +75,13 @@ const GameScreen = props => {
           <Ionicons name='ios-add' size={24} color='white' />
         </MainButton>
       </Card>
-      <ScrollView>
-        {pastGuesses.map(guess => (
-          <View key={guess}>
-            <Text>{guess}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.list}>
+        <ScrollView>
+          {pastGuesses.map((guess, index) =>
+            renderListItems(guess, pastGuesses.length - index)
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -87,10 +94,25 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginTop: 20,
     width: 300,
     maxWidth: '90%'
+  },
+  listItem: {
+    borderColor: '#ccc',
+    padding: 15,
+    marginHorizontal: 5,
+    marginVertical: 15,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  list: {
+    flex: 1,
+    width: '80%',
+    textAlign: 'center'
   }
 });
 
