@@ -4,6 +4,7 @@ import StartGameScreen from './StartGamesScreen';
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
 import Colors from '../constants/Colors';
+import MainButton from '../components/MainButton';
 
 const GameOverScreen = props => {
   return (
@@ -27,7 +28,7 @@ const GameOverScreen = props => {
         </BodyText>
       </View>
 
-      <Button title='New Game' onPress={props.startNewGame} />
+      <MainButton onPress={props.startNewGame}>NEW GAME</MainButton>
     </View>
   );
 };
