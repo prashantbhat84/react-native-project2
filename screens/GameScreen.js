@@ -6,8 +6,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
-  Dimensions,
-  KeyboardAvoidingView
+  Dimensions
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import NumberContainer from '../components/NumberContainer';
@@ -75,6 +74,54 @@ const GameScreen = props => {
       ...curPastGuesses
     ]);
   };
+  const [availableDeviceWidth, setAvailableDeviceWidth] = useState(
+    Dimensions.get('window').width
+  );
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
+    Dimensions.get('window').height
+  );
+  useEffect(() => {
+    const updateLayout = () => {
+      setAvailableDeviceHeight(Dimensions.get('window').height);
+      setAvailableDeviceWidth(Dimensions.get('window').width);
+    };
+    Dimensions.addEventListener('change', updateLayout);
+    return () => {
+      Dimensions.removeEventListener('change', updateLayout);
+    };
+  });
+  if (availableDeviceHeight < 500) {
+    return (
+      <ScrollView>
+        <View style={styles.screen}>
+          <Text style={DefaultStyle.title}>Opponent's Guess</Text>
+          <View style={styles.controls}>
+            <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+              <Ionicons name='md-remove' size={24} color='white' />
+            </MainButton>
+            <NumberContainer>{currentGuess}</NumberContainer>
+            <MainButton onPress={nextGuessHandler.bind(this, 'greator')}>
+              <Ionicons name='ios-add' size={24} color='white' />
+            </MainButton>
+          </View>
+
+          <View style={styles.listContainer}>
+            {/*<ScrollView contentContainerStyle={styles.list}>
+          {pastGuesses.map((guess, index) =>
+            renderListItems(guess, pastGuesses.length - index)
+          )}
+          </ScrollView>*/}
+            <FlatList
+              keyExtractor={item => item}
+              data={pastGuesses}
+              renderItem={renderListItems.bind(this, pastGuesses.length)}
+              contentContainerStyle={styles.list}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
   return (
     <ScrollView>
       <View style={styles.screen}>
@@ -138,6 +185,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'flex-end'
+  },
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '60%',
+    alignItems: 'center'
   }
 });
 
