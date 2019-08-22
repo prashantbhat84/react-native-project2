@@ -6,7 +6,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Card from '../components/Card';
@@ -57,37 +59,41 @@ const StartGamesScreen = props => {
     );
   }
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.screen}>
-        <TitleText>Start A New Game</TitleText>
-        <Card style={styles.inputContainer}>
-          <BodyText>Enter A Number</BodyText>
-          <Input
-            style={styles.input}
-            blurOnSubmit
-            keyboardType='number-pad'
-            maxLength={2}
-            autoCapitalize='none'
-            autoCorrect={false}
-            onChangeText={numberInputHandler}
-            value={enteredValue}
-          />
-          <View style={styles.buttonContainer}>
-            <View style={styles.buttonSize}>
-              <Button title='Reset' onPress={resetInputHandler} />
-            </View>
-            <View style={styles.buttonSize}>
-              <Button title='Submit' onPress={confirmInputHandler} />
-            </View>
+    <ScrollView>
+      <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={30}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+          }}
+        >
+          <View style={styles.screen}>
+            <TitleText>Start A New Game</TitleText>
+            <Card style={styles.inputContainer}>
+              <BodyText>Enter A Number</BodyText>
+              <Input
+                style={styles.input}
+                blurOnSubmit
+                keyboardType='number-pad'
+                maxLength={2}
+                autoCapitalize='none'
+                autoCorrect={false}
+                onChangeText={numberInputHandler}
+                value={enteredValue}
+              />
+              <View style={styles.buttonContainer}>
+                <View style={styles.buttonSize}>
+                  <Button title='Reset' onPress={resetInputHandler} />
+                </View>
+                <View style={styles.buttonSize}>
+                  <Button title='Submit' onPress={confirmInputHandler} />
+                </View>
+              </View>
+            </Card>
+            {confirmedOutput}
           </View>
-        </Card>
-        {confirmedOutput}
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
